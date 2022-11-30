@@ -1,6 +1,6 @@
 FAZER
     Lógica de total
     Fazer com o que o input de valor tenha centavos
-    Adicionar outros HTML e CSS
+    Adicionar mais elementos CSS
 
 Python v3.11.0
