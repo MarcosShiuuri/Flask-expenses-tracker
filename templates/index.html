@@ -4,46 +4,63 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Expense Tracker</title>
+        <link rel='stylesheet' href="{{ url_for('static', filename='css/main.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <h1>HOME</h1>
         <br>
         <div class="form">
-            <form>
-                <label>What did you pay for it?</label>
-                <input type="text" id="name_id" name="exp_name" maxlength="32" required>
-                <label>Wich type of payment did you choose?</label>
-                <select id="pay_id" name="exp_payment" value="Money" required>
-                    <option value="Credit">Credit Card</option>
-                    <option value="Debit">Debit Card</option>
-                    <option value="Money">Money</option>
-                    <option value="Pix">PIX</option>
-                </select>
-                <label>Where did you made the purchase?</label>
-                <input type="text" id="local_id" name="exp_local" maxlength="32" required>
-                <label>How much did it cost?</label>
-                <input type="number" id="value_id" name="exp_value" maxlength="6" required>
-                <input type="submit" value="Add expense">
+            <form action='/' method='POST'>
+                <p>
+                    <label>Item purchased:</label>
+                    <input type="text" id="name_id" name="exp_name" maxlength="32" required>
+                </p>
+                <p>
+                    <label>Type of payment:</label>
+                    <select id="pay_id" name="exp_payment" value="Money" required>
+                        <option value="Credit">Credit Card</option>
+                        <option value="Debit">Debit Card</option>
+                        <option value="Money">Money</option>
+                        <option value="Pix">PIX</option>
+                    </select>
+                </p>
+                <p>
+                    <label>Location:</label>
+                    <input type="text" id="local_id" name="exp_local" maxlength="32" required>
+                </p>
+                <p>
+                    <label>How much:</label>
+                    <input type="number" id="value_id" name="exp_value" maxlength="6" required>
+                </p>
+                <p><input type="submit" value="Add expense"></p>
             </form>
         </div>
         <br>
         <div class="show_content">
             <table>
                 <tr>
-                    <th>
-                        Below are all expenses:
-                    </th>
+                    <th>Item Name</th>
+                    <th>Payment Type</th>
+                    <th>Local</th>
+                    <th>Value</th>
                 </tr>
-                {% if x in exp%}
-                    {% for x in exp%}
-                        <tr>
-                            <td>
-                                {{x.name}}
-                            </td>
-                        </tr>
-                    {%endfor%}
-                {%endif%}
+                {%for expenses in exp%}
+                    <tr>
+                        <td>
+                            {{expenses.name}}
+                        </td>
+                        <td>
+                            {{expenses.payment}}
+                        </td>
+                        <td>
+                            {{expenses.local}}
+                        </td>
+                        <td>
+                            {{expenses.value}}
+                        </td>
+                    </tr>
+                {%endfor%}
             </table>
         </div>
     </body>
