@@ -12,14 +12,11 @@ class Expenses(db.Model):
     local = db.Column(db.String(32), nullable=False)
     payment = db.Column(db.String(12), nullable=False)
     value = db.Column(db.Float(5), nullable=False)
-    total = db.Column(db.Float(6))
-
+    total = db.Column(db.Float(6), nullable=False)
     def __repr__(self):
         return '<Expenses %r>' % self.id
 with app.app_context():
     db.create_all()
-
-app = Flask(__name__)
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
@@ -35,7 +32,8 @@ def index():
             db.session.commit()
             return rd('/')
         except:
-            error = 'Expense not added, pelase try again.'
+            error = 'Expense not added, please try again.'
             return rt('error.html', error=error)
     else:
-        return rt('index.html')
+        current_expenses = Expenses.query.order_by(Expenses.id).all()
+        return rt('index.html', exp=current_expenses)
