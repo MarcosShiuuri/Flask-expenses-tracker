@@ -8,13 +8,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <h1>HOME</h1>
-        <br>
+        <h1>Expense Tracker</h1>
         <div class="form">
-            <form action='/' method='POST'>
+            <form action='/' autocomplete="off" method='POST'>
                 <p>
                     <label>Item purchased:</label>
-                    <input type="text" id="name_id" name="exp_name" maxlength="32" required>
+                    <input type="text" id="name_id" name="exp_name" maxlength="32" placeholder="Max 32 characters" required>
                 </p>
                 <p>
                     <label>Type of payment:</label>
@@ -27,41 +26,47 @@
                 </p>
                 <p>
                     <label>Location:</label>
-                    <input type="text" id="local_id" name="exp_local" maxlength="32" required>
+                    <input type="text" id="local_id" name="exp_local" maxlength="16" placeholder="Max 16 characters" required>
                 </p>
                 <p>
                     <label>How much:</label>
-                    <input type="number" id="value_id" name="exp_value" maxlength="6" required>
+                    <input type="number" id="value_id" name="exp_value" min="0.00" max="9999.99" step="0.01" value="0000.00" required>
                 </p>
                 <p><input type="submit" value="Add expense"></p>
             </form>
         </div>
         <br>
         <div class="show_content">
+            <label><b>Total:</b> R$ {{total}}</label>
             <table>
                 <tr>
                     <th>Item Name</th>
                     <th>Payment Type</th>
                     <th>Local</th>
                     <th>Value</th>
+                    <th>Action</th>
                 </tr>
                 {%for expenses in exp%}
                     <tr>
-                        <td>
+                        <td id="td_name">
                             {{expenses.name}}
                         </td>
-                        <td>
+                        <td id="td_pay">
                             {{expenses.payment}}
                         </td>
-                        <td>
+                        <td id="td_local">
                             {{expenses.local}}
                         </td>
-                        <td>
+                        <td id="td_value">
                             {{expenses.value}}
+                        </td>
+                        <td id="td_action">
+                            <a href='/delete/{{expenses.id}}'>Remove</a>
                         </td>
                     </tr>
                 {%endfor%}
             </table>
+            <br>
         </div>
     </body>
 </html>
