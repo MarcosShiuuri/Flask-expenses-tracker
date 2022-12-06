@@ -30,8 +30,7 @@ def index():
             db.session.commit()
             return rd('/')
         except:
-            error = 'Expense not added, please try again.'
-            return rt('error.html', error=error)
+            return rt('error.html', error='Expense not added, please try again.')
     else:
         current_expenses = Expenses.query.order_by(Expenses.id).all()
         total = 0
@@ -47,5 +46,4 @@ def delete(id):
         db.session.commit()
         return rd('/')
     except:
-        error = 'Could not delete, please try again.'
-        return rt('error.html', error=error)
+        return rt('error.html', error='Could not delete, please try again.')
