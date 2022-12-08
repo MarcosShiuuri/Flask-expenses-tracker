@@ -6,5 +6,5 @@ Since the goal of this project was to improve my knowledge fo the backend, the f
 
 MADE USING:
     Python - v3.11.0
-    Flask - v2.2.2
-    HTML5 & CSS
+    Flask - v2.2.
+    HTML5 & CSS3
