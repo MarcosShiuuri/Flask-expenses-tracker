@@ -1,4 +1,4 @@
-from flask import Flask, render_template as rt, request as rq, redirect as rd
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, instance_relative_config=True)
@@ -19,24 +19,25 @@ with app.app_context():
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
-    if rq.method == 'POST':
-        exp_name = rq.form.get('exp_name')
-        exp_local = rq.form.get('exp_local')
-        exp_pay = rq.form.get('exp_payment')
-        exp_value = rq.form.get('exp_value')
+    if request.method == 'POST':
+        exp_name = request.form.get('exp_name')
+        exp_local = request.form.get('exp_local')
+        exp_pay = request.form.get('exp_payment')
+        exp_value = request.form.get('exp_value')
         new_expense = Expenses(name=exp_name, local=exp_local, payment=exp_pay, value=exp_value)
         try:
             db.session.add(new_expense)
             db.session.commit()
-            return rd('/')
+            return redirect('/')
         except:
-            return rt('error.html', error='Expense not added, please try again.')
+            error = 'Expense not added, please try again.'
+            return render_template('error.html', error=error)
     else:
         current_expenses = Expenses.query.order_by(Expenses.id).all()
         total = 0
         for x in current_expenses:
             total += x.value
-        return rt('index.html', exp=current_expenses, total=float(round(total,2)))
+        return render_template('index.html', exp=current_expenses, total=float(round(total,2)))
 
 @app.route('/delete/<int:id>')
 def delete(id):
@@ -44,6 +45,10 @@ def delete(id):
     try:
         db.session.delete(expense_delete)
         db.session.commit()
-        return rd('/')
+        return redirect('/')
     except:
-        return rt('error.html', error='Could not delete, please try again.')
+        error = 'Could not delete, please try again.'
+        return render_template('error.html', error=error)
+
+if __name__ == '__main__':
+    app.run()
